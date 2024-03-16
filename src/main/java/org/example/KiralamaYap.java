@@ -13,25 +13,30 @@ public class KiralamaYap {
         mevcutOtomobiller.add("Mercedes C Serisi");
     }
 
-    public void kiralamaYap(String otomobil, int kiralamaSuresi) throws OtomobilBulunamadiHatasi, GeçersizKiralamaSuresiHatasi, OdemeHatasi {
+    public void kiralamaYap(String otomobil, int kiralamaSuresi) {
+        try {
+            if (!mevcutOtomobiller.contains(otomobil)) {
+                throw new OtomobilBulunamadiHatasi();
+            }
 
-        if (!mevcutOtomobiller.contains(otomobil)) {
-            throw new OtomobilBulunamadiHatasi();
+            if (kiralamaSuresi <= 0) {
+                throw new GeçersizKiralamaSuresiHatasi();
+            }
+
+            boolean odemeBasarili = false;
+            if (!odemeBasarili) {
+                throw new OdemeHatasi();
+            }
+
+            System.out.println(otomobil + " " + kiralamaSuresi + " gün için başarıyla kiralandı.");
+        } catch (OtomobilBulunamadiHatasi e) {
+            System.out.println("Hata: Seçilen otomobil mevcut değil.");
+        } catch (GeçersizKiralamaSuresiHatasi e) {
+            System.out.println("Hata: Kiralama süresi geçersiz.");
+        } catch (OdemeHatasi e) {
+            System.out.println("Hata: Ödeme işlemi başarısız.");
         }
-
-
-        if (kiralamaSuresi <= 0) {
-            throw new GeçersizKiralamaSuresiHatasi();
-        }
-
-        boolean odemeBasarili = true;
-        if (!odemeBasarili) {
-            throw new OdemeHatasi();
-        }
-
-        System.out.println(otomobil + " " + kiralamaSuresi + " gün için başarıyla kiralandı.");
     }
-}
 
 class OtomobilBulunamadiHatasi extends Exception {
 }
